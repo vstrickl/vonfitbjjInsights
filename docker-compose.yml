@@ -7,6 +7,7 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
@@ -15,8 +16,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - PGSERVICEFILE=/code/app/.pg_service.conf
+      - PGPASSFILE=/code/app/.pgpass
     depends_on:
       - db

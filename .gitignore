@@ -1,2 +1,6 @@
 .env
+.pgpass
+.pg_service.conf
 data/
+django.crt
+django.key
