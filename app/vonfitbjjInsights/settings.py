@@ -26,7 +26,10 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+]
 
 
 # Application definition
@@ -67,7 +70,7 @@ ROOT_URLCONF = 'vonfitbjjInsights.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ BASE_DIR / 'templates' ],  # This template directory is for django-allauth
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -172,14 +175,13 @@ STORAGES = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Facebook API
+# Facebook API (django-allauth)
 
-FACEBOOK_APP_ID = config('FACEBOOK_APP_ID')
-FACEBOOK_APP_SECRET = config('FACEBOOK_APP_SECRET')
+LOGIN_REDIRECT_URL = 'fb_redirect'
 
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
-        'METHOD': '',
+        'METHOD': 'oauth2',
         'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
         'SCOPE': ['email', 'public_profile'],
         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
