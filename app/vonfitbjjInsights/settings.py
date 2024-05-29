@@ -177,13 +177,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Facebook API (django-allauth)
 
+AT = config('AT')
+
 LOGIN_REDIRECT_URL = 'fb_redirect'
 
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'METHOD': 'oauth2',
         'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
-        'SCOPE': ['email', 'public_profile'],
+        'SCOPE': [
+            'email',
+            'public_profile',
+            'instagram_basic',
+            'pages_show_list'
+        ],
         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
         'INIT_PARAMS': {'cookie': True},
         'FIELDS': [
