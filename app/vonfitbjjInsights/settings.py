@@ -15,6 +15,7 @@ from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_URL = config('BASE_URL')
 
 
 # Quick-start development settings - unsuitable for production
@@ -44,13 +45,9 @@ INSTALLED_APPS = [
 
     # Third-Party Apps
     'sslserver',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
 
     ## Native App
-    'metainsights'
+    'metainsights',
 ]
 
 MIDDLEWARE = [
@@ -61,7 +58,6 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -70,7 +66,7 @@ ROOT_URLCONF = 'vonfitbjjInsights.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ BASE_DIR / 'templates' ],  # This template directory is for django-allauth
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,14 +115,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
-
-    # `allauth` specific authentication methods, such as login by email
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -138,6 +126,44 @@ TIME_ZONE = 'America/Los_Angeles'
 USE_I18N = True
 
 USE_TZ = True
+
+# Logging
+
+# File: vonfitbjjInsights/settings.py
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'INFO',  # Set to INFO to reduce verbosity
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',  # Set to INFO to reduce verbosity
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',  # Set to INFO to reduce verbosity
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'INFO',  # Set to INFO to reduce verbosity
+            'propagate': False,
+        },
+        'metainsights': {
+            'handlers': ['console'],
+            'level': 'DEBUG',  # Set to DEBUG to capture detailed logs for your app
+            'propagate': False,
+        },
+    },
+}
+
+
 
 
 # Static files (CSS, JavaScript, Images)
@@ -170,43 +196,20 @@ STORAGES = {
     },
 }
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Facebook API (django-allauth)
 
-AT = config('AT')
+# A list of trusted origins for unsafe requests
+# https://docs.djangoproject.com/en/5.0/ref/settings/#csrf-trusted-origins
 
-LOGIN_REDIRECT_URL = 'fb_redirect'
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
 
-SOCIALACCOUNT_PROVIDERS = {
-    'facebook': {
-        'METHOD': 'oauth2',
-        'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
-        'SCOPE': [
-            'email',
-            'public_profile',
-            'instagram_basic',
-            'pages_show_list'
-        ],
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'INIT_PARAMS': {'cookie': True},
-        'FIELDS': [
-            'id',
-            'first_name',
-            'last_name',
-            'middle_name',
-            'name',
-            'name_format',
-            'picture',
-            'short_name'
-        ],
-        'EXCHANGE_TOKEN': True,
-        'LOCALE_FUNC': 'path.to.callable',
-        'VERIFIED_EMAIL': False,
-        'VERSION': 'v20.0',
-        'GRAPH_API_URL': 'https://graph.facebook.com/v20.0',
-    }
-}
+
+# Facebook API
+
+FACEBOOK_APP_ID = config('FACEBOOK_APP_ID')
+FACEBOOK_APP_SECRET = config('FACEBOOK_APP_SECRET')
