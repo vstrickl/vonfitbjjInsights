@@ -1,20 +1,9 @@
-import requests
 import logging
+
 from .models import FacebookPage
+from .models import FacebookToken
 
 # Create Facebook Utils here.
-def get_facebook_pages(access_token):
-    url = f"https://graph.facebook.com/v20.0/me/accounts"
-
-    try:
-        response = requests.get(url, params={'access_token': access_token})
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.HTTPError as http_err:
-        logging.error(f'HTTP error occurred: {http_err}')
-    except Exception as err:
-        logging.error(f'An error occurred: {err}')
-
 def clean_page_info(page_info):
     # Remove "paging", "tasks", and "access_token" from the JSON data
     if 'paging' in page_info:
@@ -38,3 +27,11 @@ def save_page_info_to_db(cleaned_page_info):
                     'category_list': page['category_list']
                 }
             )
+
+def get_latest_access_token():
+    try:
+        token = FacebookToken.objects.latest('updated_at')
+        return token.token
+    except FacebookToken.DoesNotExist:
+        logging.error("No access token found.")
+    return None

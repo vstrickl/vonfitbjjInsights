@@ -1,13 +1,13 @@
 import logging
 import requests
+from decouple import config
 from django.http import HttpResponse
 from django.http import HttpResponseBadRequest
-from decouple import config
+from vonfitbjjInsights.settings import BASE_URL
 
 from .models import FacebookToken
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
-BASE_URL = config('BASE_URL')
 CALLBACK_URL = f"{BASE_URL}/callback"
 
 # Create your views here.

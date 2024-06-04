@@ -6,5 +6,5 @@ from .models import FacebookPage
 admin.site.register(FacebookToken)
 
 class FacebookPageAdmin(admin.ModelAdmin):
-    list_display = ('name', 'page_id', 'category')
+    list_display = ('name', 'page_id', 'ig_user_id', 'category', 'cli_name')
 admin.site.register(FacebookPage, FacebookPageAdmin)

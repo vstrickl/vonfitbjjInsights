@@ -1,8 +1,6 @@
 import os
-import json
 import django
 import logging
-import requests
 
 # Set up Django environment
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vonfitbjjInsights.settings')
@@ -10,7 +8,7 @@ django.setup()
 
 from metainsights.models import FacebookToken
 from metainsights.fb_utils import clean_page_info
-from metainsights.fb_utils import get_facebook_pages
+from metainsights.fb_info import get_facebook_pages
 from metainsights.fb_utils import save_page_info_to_db
 
 # Set up logging

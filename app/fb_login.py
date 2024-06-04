@@ -4,9 +4,9 @@ import requests
 import string
 
 from decouple import config
+from vonfitbjjInsights.settings import BASE_URL
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
-BASE_URL = config('BASE_URL')
 CALLBACK_URL = f"{BASE_URL}/callback"
 
 def generate_state():

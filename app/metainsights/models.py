@@ -12,7 +12,9 @@ class FacebookToken(models.Model):
 
 class FacebookPage(models.Model):
     page_id = models.CharField(max_length=255, unique=True)
+    ig_user_id = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255)
+    cli_name = models.CharField(max_length=255, blank=True, null=True)
     category = models.CharField(max_length=255)
     category_list = models.JSONField()
 
