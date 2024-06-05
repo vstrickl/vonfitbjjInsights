@@ -1,4 +1,5 @@
 import os
+import json
 import django
 import logging
 import argparse
@@ -44,11 +45,12 @@ if __name__ == "__main__":
                     args.breakdown
                 )
                 if result:
-                    logging.info('\nSuccessfully retrieved IG Insights...\n')
+                    logging.info(f'\nSuccessfully retrieved {args.metric} IG Insights...\n')
                     for data in result.get('data', []):
                         if 'values' in data:
                             for value in data['values']:
-                                logging.info(f"    {value['value']}")
+                                formatted_value = json.dumps(value['value'], indent=4)
+                                logging.info(formatted_value)
                 else:
                     logging.error("Failed to retrieve Instagram audience demographics.")
             else:
