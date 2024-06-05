@@ -48,3 +48,11 @@ def update_ig_user_id(cli_name, ig_user_id):
         logging.info(f"Successfully updated {cli_name} FacebookPage model!")
     except FacebookPage.DoesNotExist:
         logging.error(f"No FacebookPage found with cli_name: {cli_name}")
+
+def get_ig_user_id_by_cli_name(cli_name):
+    try:
+        page = FacebookPage.objects.get(cli_name=cli_name)
+        return page.ig_user_id
+    except FacebookPage.DoesNotExist:
+        logging.error(f"No FacebookPage found with cli_name: {cli_name}")
+    return None
