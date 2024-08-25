@@ -60,19 +60,7 @@ if [ ! -f "app/$DJANGO_PROJECT_NAME/wsgi.py" ]; then
 fi
 
 # Install dependencies
-# Check if requirements are already satisfied
-echo -e "${YELLOW}Checking if requirements are satisfied...${NC}"
-pip freeze > installed_packages.txt
-if ! diff -q <(sort requirements.txt) <(sort installed_packages.txt) > /dev/null 2>&1; then
-    echo -e "${YELLOW}Requirements not satisfied. Installing dependencies...${NC}"
-    pip install -r requirements.txt
-    if [ $? -ne 0 ]; then
-        handle_error "Failed to install dependencies. Exiting..."
-    fi
-else
-    echo -e "${GREEN}All requirements are already satisfied. Skipping pip install.${NC}"
-fi
-rm installed_packages.txt
+sdlc/install_dependencies
 
 # Collect static files, compile assets, etc...
 echo -e "${YELLOW}Building the project...${NC}"
@@ -108,22 +96,6 @@ if [ $? -ne 0 ]; then
 fi
 
 # Build Docker image
-echo -e "${YELLOW}Building Docker image...${NC}"
-docker build -t ${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:latest -f Dockerfile .
-if [ $? -ne 0 ]; then
-    handle_error "Docker image build failed. Exiting..."
-fi
+sdlc/build_push
 
-# Push Docker image to Docker Hub using access token
-echo -e "${YELLOW}Pushing Docker image to Docker Hub...${NC}"
-echo "${DOCKER_ACCESS_TOKEN}" | docker login -u ${DOCKER_USERNAME} --password-stdin
-if [ $? -ne 0 ]; then
-    handle_error "Docker login failed. Exiting..."
-fi
-docker push ${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:latest
-if [ $? -ne 0 ]; then
-    handle_error "Docker image push failed. Exiting..."
-fi
-
-echo -e "${GREEN}Docker image successfully pushed to Docker Hub!${NC}"
 echo -e "${GREEN}Deployment script completed successfully!${NC}"

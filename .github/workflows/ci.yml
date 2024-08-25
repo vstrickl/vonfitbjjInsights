@@ -5,8 +5,6 @@ on:
     branches: [ $default-branch ]
   pull_request:
     branches: [ $default-branch ]
-  schedule:
-    - cron: '0 0 * * 0'  # Weekly scan on Sunday at midnight
 
 jobs:
   codeql:
@@ -40,14 +38,10 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: Install dependencies
+    - name: Run security checks with Bandit
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install --upgrade pip
         pip install bandit
-
-    - name: Run Bandit for security analysis
-      run: |
         bandit -r app/vonfitbjjInsights/ -ll
 
   deployment_check:
@@ -65,17 +59,18 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        bash sdlc/install_dependencies
 
     - name: Run Django checks
       run: |
         python manage.py check
         python manage.py test
 
-    - name: Verify Railway.app Deployment Setup
+    - name: Build and Push Docker Image
       env:
         DJANGO_PROJECT_NAME: ${{ secrets.DJANGO_PROJECT_NAME }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+        DOCKER_REPO_NAME: ${{ secrets.DOCKER_REPO_NAME }}
       run: |
-        # Execute the deployment script
-        bash test_deploy
+        bash sdlc/build_push
