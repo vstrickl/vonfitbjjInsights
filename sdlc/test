@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Set Colors and handle errors
+sdlc/colors
+
+# Set Environmental Variables
+sdlc/set_envars
+
+# Run linter checks
+sdlc/linter_check
+
+echo -e "${YELLOW}Building project...${NC}"
+
+# Install dependencies
+sdlc/install_dependencies
+
+# Reset pip requirements.txt file
+sdlc/reset_requirements
+
+# Collect static files, compile assets, etc...
+sdlc/collect_static
+
+# Make migrations
+sdlc/migrate
+
+# Build Docker image
+sdlc/build
+
+# Run Docker image Locally
+echo -e "${YELLOW}Running Docker image Locally...${NC}"
+docker compose up --remove-orphans 
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Creating Docker container failed. Exiting...${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}Docker container created successfully!${NC}"

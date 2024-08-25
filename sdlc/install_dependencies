@@ -1,10 +1,5 @@
 #!/bin/bash
 
-RED='\033[0;31m'
-YELLOW='\033[0;33m'
-GREEN='\033[0;32m'
-NC='\033[0m'
-
 echo -e "${YELLOW}Checking if requirements are satisfied...${NC}"
 pip freeze > installed_packages.txt
 if ! diff -q <(sort requirements.txt) <(sort installed_packages.txt) > /dev/null 2>&1; then

@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Set Colors and handle errors
+sdlc/colors
+
+# Set Environmental Variables
+sdlc/set_envars
+
+# Run linter checks
+sdlc/linter_check
+
+echo -e "${YELLOW}Building project...${NC}"
+
+# Install dependencies
+sdlc/install_dependencies
+
+# Reset pip requirements.txt file
+sdlc/reset_requirements
+
+# Collect static files, compile assets, etc...
+sdlc/collect_static
+
+# Make migrations
+sdlc/migrate
+
+# Build Docker image
+sdlc/build
+
+# Push Docker image to Docker Hub
+echo -e "${YELLOW}Pushing Docker image to Docker Hub...${NC}"
+docker compose push ${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:latest
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Docker image push failed. Exiting...${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}Docker image successfully pushed to Docker Hub!${NC}"
+echo -e "${GREEN}Deployment script completed successfully!${NC}"

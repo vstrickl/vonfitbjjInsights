@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Collect static files, compile assets, etc...
+echo -e "${YELLOW}Building the project...${NC}"
+python app/manage.py collectstatic --noinput
+if [ $? -ne 0 ]; then
+    handle_error "${RED}Build failed while collecting static files. Exiting...${NC}"
+fi

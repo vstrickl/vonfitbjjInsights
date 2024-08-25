@@ -73,4 +73,4 @@ jobs:
         DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
         DOCKER_REPO_NAME: ${{ secrets.DOCKER_REPO_NAME }}
       run: |
-        bash sdlc/build_push
+        bash sdlc/deploy

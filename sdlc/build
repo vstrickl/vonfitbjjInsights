@@ -1,13 +1,20 @@
 #!/bin/bash
 
-RED='\033[0;31m'
-YELLOW='\033[0;33m'
-GREEN='\033[0;32m'
-NC='\033[0m'
-
 # Load environment variables from .env if present
 if [ -f ".env" ]; then
     export $(grep -v '^#' .env | xargs)
+fi
+
+if [ -z "$DOCKER_USERNAME" ]; then
+    handle_error "Error: DOCKER_USERNAME is not set. Please ensure it's defined in your .env file or as an environment variable."
+fi
+
+if [ -z "$DOCKER_ACCESS_TOKEN" ]; then
+    handle_error "Error: DOCKER_ACCESS_TOKEN is not set. Please ensure it's defined in your .env file or as an environment variable."
+fi
+
+if [ -z "$DOCKER_REPO_NAME" ]; then
+    handle_error "Error: DOCKER_REPO_NAME is not set. Please ensure it's defined in your .env file or as an environment variable."
 fi
 
 # Validate Docker credentials
@@ -22,18 +29,8 @@ echo -e "${GREEN}Docker login successful! Proceeding with the deployment...${NC}
 
 # Build Docker image
 echo -e "${YELLOW}Building Docker image...${NC}"
-docker build -t ${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:latest -f Dockerfile .
+docker compose build -t ${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:latest -f Dockerfile .
 if [ $? -ne 0 ]; then
     echo -e "${RED}Docker image build failed. Exiting...${NC}"
     exit 1
 fi
-
-# Push Docker image to Docker Hub
-echo -e "${YELLOW}Pushing Docker image to Docker Hub...${NC}"
-docker push ${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:latest
-if [ $? -ne 0 ]; then
-    echo -e "${RED}Docker image push failed. Exiting...${NC}"
-    exit 1
-fi
-
-echo -e "${GREEN}Docker image successfully pushed to Docker Hub!${NC}"

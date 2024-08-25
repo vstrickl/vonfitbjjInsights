@@ -1,3 +1,20 @@
 #!/bin/bash
 
-python3 manage.py migrate
+# Make migrations
+echo -e "${YELLOW}Making migrations...${NC}"
+migration_output=$(python app/manage.py makemigrations 2>&1)
+if [ $? -ne 0 ]; then
+    handle_error "Migrations failed. Exiting..."
+fi
+
+# Migrate changes as needed
+if echo "$migration_output" | grep -q "No changes detected"; then
+    echo -e "${YELLOW}No changes detected in migrations.${NC}"
+else
+    # Apply migrations
+    echo -e "${YELLOW}Applying migrations...${NC}"
+    python app/manage.py migrate
+    if [ $? -ne 0 ]; then
+        handle_error "Migration application failed. Exiting..."
+    fi
+fi

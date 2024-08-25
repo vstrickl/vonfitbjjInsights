@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:13
@@ -12,11 +10,11 @@ services:
 
   web:
     build: .
-    command: gunicorn --bind 0.0.0.0:8000 app.vonfitbjjInsights.wsgi:application
-    volumes:
-      - .:/app
     ports:
       - "8000:8000"
+    volumes:
+      - .:/app
+    command: gunicorn --bind 0.0.0.0:8000 vonfitbjjInsights.wsgi:application --chdir app
     env_file:
       - ./.env
     depends_on:
