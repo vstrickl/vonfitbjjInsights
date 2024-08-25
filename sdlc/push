@@ -44,9 +44,10 @@ while true; do
     read confirmation
 
     if [[ "$confirmation" == "y" || "$confirmation" == "yes" ]]; then
+    
         # Make the commit with the provided message
-        echo -e "${YELLOW}Committing changes...${NC}"
         echo -e " "
+        echo -e "${YELLOW}Committing changes...${NC}"
         git commit -m "$commit_message"
         if [ $? -ne 0 ]; then
             handle_error "Commit failed. Exiting..."
