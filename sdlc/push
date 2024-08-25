@@ -23,7 +23,18 @@ echo -e "${YELLOW}Adding all changes to staging...${NC}"
 git add .
 
 # Check the status again to show what has been staged
-git status
+git_status=$(git status)
+
+# Check if there is nothing to commit (working tree is clean)
+if echo "$git_status" | grep -q "nothing to commit, working tree clean"; then
+    echo -e " "
+    echo -e "${GREEN}Nothing to commit, working tree clean. Exiting...${NC}"
+    echo -e " "
+    exit 0
+fi
+
+# Show the status to the user
+echo -e "$git_status"
 
 while true; do
     # Prompt for a commit message
@@ -44,7 +55,7 @@ while true; do
     read confirmation
 
     if [[ "$confirmation" == "y" || "$confirmation" == "yes" ]]; then
-    
+
         # Make the commit with the provided message
         echo -e " "
         echo -e "${YELLOW}Committing changes...${NC}"
