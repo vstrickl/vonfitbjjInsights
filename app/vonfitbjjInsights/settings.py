@@ -15,7 +15,15 @@ from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-BASE_URL = config('BASE_URL')
+
+# Determine the environment (you can set this in your .env file or environment)
+ENVIRONMENT = config('ENVIRONMENT', default='development')
+
+# Set the BASE_URL based on the environment
+if ENVIRONMENT == 'production':
+    BASE_URL = config('BASE_URL', default='https://production.example.com')
+else:
+    BASE_URL = config('BASE_URL', default='https://localhost:8000')
 
 
 # Quick-start development settings - unsuitable for production
