@@ -1,0 +1,15 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
+
+echo -e "${YELLOW}Reseting requirements.txt...${NC}"
+rm requirements.txt
+
+echo -e "${YELLOW}Updating requirements.txt...${NC}"
+pip3 freeze > requirements.txt
+
+echo -e " "
+cat requirements.txt

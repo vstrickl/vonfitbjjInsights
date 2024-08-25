@@ -1,0 +1,48 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
+
+echo -e "${YELLOW}Starting testing...${NC}"
+
+# Install dependencies
+echo -e "${YELLOW}Installing dependencies...${NC}"
+pip install -r requirements.txt
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Failed to install dependencies. Exiting...${NC}"
+    exit 1
+fi
+
+# Run pylint
+echo -e "${YELLOW}Running pylint...${NC}"
+pylint **/*.py
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Pylint failed. Exiting...${NC}"
+    exit 1
+else
+    echo -e "${GREEN}Pylint passed!${NC}"
+fi
+
+# Run mypy
+echo -e "${YELLOW}Running mypy...${NC}"
+mypy **/*.py
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Mypy failed. Exiting...${NC}"
+    exit 1
+else
+    echo -e "${GREEN}Mypy passed!${NC}"
+fi
+
+# Run tests
+echo -e "${YELLOW}Running tests...${NC}"
+pytest
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Tests failed. Exiting...${NC}"
+    exit 1
+else
+    echo -e "${GREEN}Tests passed!${NC}"
+fi
+
+echo -e "${GREEN}Test script completed successfully!${NC}"

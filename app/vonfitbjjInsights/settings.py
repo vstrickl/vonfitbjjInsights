@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     ## Native App
     'metainsights',
+    'avatar'
 ]
 
 MIDDLEWARE = [

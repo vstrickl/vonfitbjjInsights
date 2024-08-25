@@ -11,10 +11,10 @@ WORKDIR /app
 
 # Install dependencies
 COPY requirements.txt /app/
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy project
 COPY . /app/
 
 # Start the Django server
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "vonfitbjjInsights.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app.vonfitbjjInsights.wsgi:application"]

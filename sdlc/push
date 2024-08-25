@@ -1,0 +1,65 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+ORANGE='\033[0;38;5;214m'
+BLUE='\033[38;2;0;255;255m'
+NC='\033[0m'
+
+# Ensure that the branch name is provided as an argument
+if [ -z "$1" ]; then
+    echo -e "${RED}Error: No branch name provided.${NC}"
+    echo -e "${YELLOW}Usage: $0 <branch_name>${NC}"
+    exit 1
+fi
+
+BRANCH_NAME=$1
+
+# Check the status of the repository
+echo -e "${YELLOW}Gathering Project Changes...${NC}"
+
+# Add all changes to staging
+echo -e "${YELLOW}Adding all changes to staging...${NC}"
+git add .
+
+# Check the status again to show what has been staged
+echo -e "${YELLOW}Getting new repo staging status...${NC}"
+git status
+
+while true; do
+    # Prompt for a commit message
+    echo -e "${YELLOW}Please enter your commit message. (You do NOT need quotes): ${NC}"
+    if ! read commit_message; then
+        echo -e "${RED}Exiting script.${NC}"
+        reset
+        exit 0
+    fi
+
+    # Show the draft of the commit message and ask for confirmation
+    echo -e "${YELLOW}Your commit message is: ${NC}"
+    echo -e "${BLUE}${commit_message} ${NC}"
+    echo -e "${YELLOW}Do you want to proceed with this commit message? (yes/no): ${NC}"
+    read confirmation
+
+    if [[ "$confirmation" == "yes" ]]; then
+        # Make the commit with the provided message
+        echo -e "${YELLOW}Committing changes...${NC}"
+        git commit -m "$commit_message"
+        if [ $? -ne 0 ]; then
+            handle_error "Commit failed. Exiting..."
+        fi
+
+        # Push the changes to the main branch
+        echo -e "${YELLOW}Pushing changes to the remote branch '${BRANCH_NAME}...${NC}"
+        git push origin "$BRANCH_NAME"
+        if [ $? -ne 0 ]; then
+            handle_error "Push failed. Exiting..."
+        fi
+
+        echo -e "${GREEN}Changes pushed successfully to the '${BRANCH_NAME}' branch!${NC}"
+        exit 0
+    else
+        echo -e "${RED}Commit aborted by user. Please provide a new commit message.${NC}"
+    fi
+done

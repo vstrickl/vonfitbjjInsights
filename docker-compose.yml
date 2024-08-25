@@ -1,22 +1,25 @@
+version: '3.8'
+
 services:
   db:
-    image: postgres
-    volumes:
-      - ./data/db:/var/lib/postgresql/data
+    image: postgres:13
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=${DBNAME}
+      - POSTGRES_USER=${PGUSER}
+      - POSTGRES_PASSWORD=${PGPWD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn --bind 0.0.0.0:8000 app.vonfitbjjInsights.wsgi:application
     volumes:
-      - .:/code
+      - .:/app
     ports:
       - "8000:8000"
-    environment:
-      - PGSERVICEFILE=/code/app/.pg_service.conf
-      - PGPASSFILE=/code/app/.pgpass
+    env_file:
+      - ./.env
     depends_on:
       - db
+volumes:
+  postgres_data:

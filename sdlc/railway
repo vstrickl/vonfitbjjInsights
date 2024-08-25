@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Color codes for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
+
+# Function to handle errors with a specific message
+handle_error() {
+    echo -e "${RED}$1${NC}"
+    exit 1
+}
+
+# Load environment variables from .env if present
+if [ -f ".env" ]; then
+    export $(grep -v '^#' .env | xargs)
+else
+    handle_error "Error: .env file not found. Please ensure it exists and contains the RAILWAY_TOKEN."
+fi
+
+# Ensure RAILWAY_TOKEN is set
+if [ -z "$RAILWAY_TOKEN" ]; then
+    handle_error "Error: RAILWAY_TOKEN is not set. Please ensure it's defined in your .env file."
+fi
+
+# Validate the RAILWAY_TOKEN by running a simple Railway command
+echo -e "${YELLOW}Validating Railway Token...${NC}"
+RAILWAY_TOKEN=${RAILWAY_TOKEN} railway status &>/dev/null
+if [ $? -ne 0 ]; then
+    handle_error "Error: Invalid RAILWAY_TOKEN. Please check your token in the .env file."
+fi
+
+# Execute the Railway command passed as arguments to the script
+echo -e "${YELLOW}Running Railway command with RAILWAY_TOKEN...${NC}"
+RAILWAY_TOKEN=${RAILWAY_TOKEN} railway "$@"
+if [ $? -ne 0 ]; then
+    handle_error "Error: Railway command failed. Please check the command and try again."
+fi
+
+echo -e "${GREEN}Railway command executed successfully!${NC}"

@@ -20,13 +20,8 @@ logging.basicConfig(level=logging.INFO, format='%(message)s')
 if __name__ == "__main__":
     try:
         parser = argparse.ArgumentParser(description='Fetch Instagram audience demographics.')
-        parser.add_argument('cli_name', type=str, help='CLI name of the Facebook page')
+        parser.add_argument('cli_name', type=str, help='CLI friendly name of the Facebook page')
         parser.add_argument('metric', type=str, help='Metric to fetch')
-        parser.add_argument('--since', type=str, help='Start date for the data', required=False)
-        parser.add_argument('--until', type=str, help='End date for the data', required=False)
-        parser.add_argument('--timeframe', type=str, help='Timeframe for engaged_audience_demographics', required=False)
-        parser.add_argument('--metric_type', type=str, help='Metric type for engaged_audience_demographics', required=False)
-        parser.add_argument('--breakdown', type=str, help='Breakdown for engaged_audience_demographics', required=False)
 
         args = parser.parse_args()
 
@@ -38,11 +33,6 @@ if __name__ == "__main__":
                     access_token,
                     ig_user_id,
                     args.metric,
-                    args.since,
-                    args.until,
-                    args.timeframe,
-                    args.metric_type,
-                    args.breakdown
                 )
                 if result:
                     logging.info(f'\nSuccessfully retrieved {args.metric} IG Insights...\n')

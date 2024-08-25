@@ -1,0 +1,81 @@
+name: Django CI/CD Pipeline
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly scan on Sunday at midnight
+
+jobs:
+  codeql:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: python
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: '/github/workflow/analysis'
+
+  security_check:
+    name: Security Checks
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install bandit
+
+    - name: Run Bandit for security analysis
+      run: |
+        bandit -r app/vonfitbjjInsights/ -ll
+
+  deployment_check:
+    name: Deployment Verification
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Django checks
+      run: |
+        python manage.py check
+        python manage.py test
+
+    - name: Verify Railway.app Deployment Setup
+      env:
+        DJANGO_PROJECT_NAME: ${{ secrets.DJANGO_PROJECT_NAME }}
+      run: |
+        # Execute the deployment script
+        bash test_deploy
