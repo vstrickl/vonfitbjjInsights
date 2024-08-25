@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Set Colors and handle errors
+sdlc/colors
+
 echo -e "${YELLOW}Checking if requirements are satisfied...${NC}"
 pip freeze > installed_packages.txt
 if ! diff -q <(sort requirements.txt) <(sort installed_packages.txt) > /dev/null 2>&1; then

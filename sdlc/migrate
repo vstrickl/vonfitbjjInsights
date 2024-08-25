@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Set Colors and handle errors
+sdlc/colors
+
 # Make migrations
 echo -e "${YELLOW}Making migrations...${NC}"
 migration_output=$(python app/manage.py makemigrations 2>&1)

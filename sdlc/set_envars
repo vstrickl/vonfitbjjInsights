@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Set Colors and handle errors
+sdlc/colors
+
 # Load environment variables from .env if present
 if [ -f ".env" ]; then
     export $(grep -v '^#' .env | xargs)

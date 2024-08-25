@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Set Colors and handle errors
+sdlc/colors
+
 # Collect static files, compile assets, etc...
 echo -e "${YELLOW}Building the project...${NC}"
 python app/manage.py collectstatic --noinput

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Set Colors and handle errors
+sdlc/colors
+
 echo -e "${YELLOW}Reseting requirements.txt...${NC}"
 rm requirements.txt
 
