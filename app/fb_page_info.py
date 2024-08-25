@@ -1,6 +1,8 @@
+"""Grabs Facebook Page Info for Account."""
+
 import os
-import django
 import logging
+import django
 
 # Set up Django environment
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vonfitbjjInsights.settings')
@@ -29,4 +31,4 @@ if __name__ == "__main__":
     except FacebookToken.DoesNotExist:
         logger.error('No access token found.')
     except Exception as err:
-        logger.error(f'An error occurred: {err}')
+        logger.error('An error occurred: %s', err)

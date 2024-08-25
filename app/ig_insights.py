@@ -1,3 +1,5 @@
+"""Calls the IG Insights API Endpoint function."""
+
 import os
 import json
 import django
@@ -35,7 +37,7 @@ if __name__ == "__main__":
                     args.metric,
                 )
                 if result:
-                    logging.info(f'\nSuccessfully retrieved {args.metric} IG Insights...\n')
+                    logging.info('\nSuccessfully retrieved %s IG Insights...\n', args.metric)
                     for data in result.get('data', []):
                         if 'values' in data:
                             for value in data['values']:
@@ -48,10 +50,10 @@ if __name__ == "__main__":
         else:
             logging.error("Failed to find the IG user ID for the provided CLI name.")
     except argparse.ArgumentError as arg_err:
-        logging.error(f'Argument error: {arg_err}')
+        logging.error('Argument error: %s', arg_err)
     except django.core.exceptions.ImproperlyConfigured as config_err:
-        logging.error(f'Improperly configured: {config_err}')
+        logging.error('Improperly configured: %s', config_err)
     except django.db.utils.DatabaseError as db_err:
-        logging.error(f'Database error: {db_err}')
+        logging.error('Database error: %s', db_err)
     except Exception as e:
-        logging.error(f"An unexpected error occurred: {e}")
+        logging.error("An unexpected error occurred: %s", e)
