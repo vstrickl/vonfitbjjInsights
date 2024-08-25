@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set Colors and handle errors
-sdlc/colors
+source sdlc/colors
 
 echo -e "${YELLOW}Starting testing...${NC}"
 

@@ -1,18 +1,21 @@
 #!/bin/bash
 
 # Set Colors and handle errors
-sdlc/colors
+source sdlc/colors
 
 # Ensure that the branch name is provided as an argument
 if [ -z "$1" ]; then
+    echo -e " "
     echo -e "${RED}Error: No branch name provided.${NC}"
     echo -e "${YELLOW}Usage: $0 <branch_name>${NC}"
+    echo -e " "
     exit 1
 fi
 
 BRANCH_NAME=$1
 
 # Check the status of the repository
+echo -e " "
 echo -e "${YELLOW}Gathering Project Changes...${NC}"
 
 # Add all changes to staging
@@ -20,7 +23,6 @@ echo -e "${YELLOW}Adding all changes to staging...${NC}"
 git add .
 
 # Check the status again to show what has been staged
-echo -e "${YELLOW}Getting new repo staging status...${NC}"
 git status
 
 while true; do
@@ -28,22 +30,27 @@ while true; do
     echo -e "${YELLOW}Please enter your commit message. (You do NOT need quotes): ${NC}"
     if ! read commit_message; then
         echo -e "${RED}Exiting script.${NC}"
+        echo -e " "
         reset
         exit 0
     fi
 
     # Show the draft of the commit message and ask for confirmation
+    echo -e " "
     echo -e "${YELLOW}Your commit message is: ${NC}"
     echo -e "${BLUE}${commit_message} ${NC}"
+    echo -e " "
     echo -e "${YELLOW}Do you want to proceed with this commit message? (yes/no): ${NC}"
     read confirmation
 
     if [[ "$confirmation" == "y" || "$confirmation" == "yes" ]]; then
         # Make the commit with the provided message
         echo -e "${YELLOW}Committing changes...${NC}"
+        echo -e " "
         git commit -m "$commit_message"
         if [ $? -ne 0 ]; then
             handle_error "Commit failed. Exiting..."
+            echo -e " "
         fi
 
         # Push the changes to the main branch
@@ -51,11 +58,14 @@ while true; do
         git push origin "$BRANCH_NAME"
         if [ $? -ne 0 ]; then
             handle_error "Push failed. Exiting..."
+            echo -e " "
         fi
 
         echo -e "${GREEN}Changes pushed successfully to the '${BRANCH_NAME}' branch!${NC}"
+        echo -e " "
         exit 0
     else
         echo -e "${RED}Commit aborted by user. Please provide a new commit message.${NC}"
+        echo -e " "
     fi
 done

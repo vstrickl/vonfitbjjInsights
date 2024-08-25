@@ -1,11 +1,16 @@
 #!/bin/bash
 
 # Set Colors and handle errors
-sdlc/colors
+source sdlc/colors
 
 # Collect static files, compile assets, etc...
-echo -e "${YELLOW}Building the project...${NC}"
+echo -e "${YELLOW}Collecting Static files...${NC}"
+
 python app/manage.py collectstatic --noinput
 if [ $? -ne 0 ]; then
     handle_error "${RED}Build failed while collecting static files. Exiting...${NC}"
+    echo -e " "
+else
+    echo -e "${GREEN}Static files collected successfully!${NC}"
+    echo -e " "
 fi

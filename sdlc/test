@@ -1,37 +1,50 @@
 #!/bin/bash
 
 # Set Colors and handle errors
-sdlc/colors
+source sdlc/colors
 
 # Set Environmental Variables
 sdlc/set_envars
 
-# Run linter checks
-sdlc/linter_check
-
+echo -e " "
 echo -e "${YELLOW}Building project...${NC}"
+echo -e " "
 
 # Install dependencies
 sdlc/install_dependencies
+if [ $? -ne 0 ]; then
+    handle_error "Install Dependencies script failed. Exiting deployment..."
+fi
 
 # Reset pip requirements.txt file
 sdlc/reset_requirements
 
 # Collect static files, compile assets, etc...
 sdlc/collect_static
+if [ $? -ne 0 ]; then
+    handle_error "Collect Static files failed. Exiting deployment..."
+fi
 
 # Make migrations
 sdlc/migrate
+if [ $? -ne 0 ]; then
+    handle_error "Migration script failed. Exiting deployment..."
+fi
 
 # Build Docker image
 sdlc/build
+if [ $? -ne 0 ]; then
+    handle_error "Build script failed. Exiting deployment..."
+fi
 
 # Run Docker image Locally
 echo -e "${YELLOW}Running Docker image Locally...${NC}"
 docker compose up --remove-orphans 
 if [ $? -ne 0 ]; then
     echo -e "${RED}Creating Docker container failed. Exiting...${NC}"
+    echo -e " "
     exit 1
 fi
 
 echo -e "${GREEN}Docker container created successfully!${NC}"
+echo -e " "

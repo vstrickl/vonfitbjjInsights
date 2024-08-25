@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Set Colors and handle errors
+source sdlc/colors
+
 # Load environment variables from .env if present
 if [ -f ".env" ]; then
     export $(grep -v '^#' .env | xargs)
@@ -25,12 +28,18 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo -e "${GREEN}Docker login successful! Proceeding with the deployment...${NC}"
+echo -e "${GREEN}Docker login successful!${NC}"
+echo -e " "
 
 # Build Docker image
 echo -e "${YELLOW}Building Docker image...${NC}"
-docker compose build -t ${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:latest -f Dockerfile .
+docker compose build
 if [ $? -ne 0 ]; then
     echo -e "${RED}Docker image build failed. Exiting...${NC}"
+    echo -e " "
     exit 1
 fi
+
+echo -e " "
+echo -e "${GREEN}Docker image built successfully!${NC}"
+echo -e " "

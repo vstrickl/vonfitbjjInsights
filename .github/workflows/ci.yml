@@ -66,7 +66,7 @@ jobs:
         python app/manage.py check
         python app/manage.py test
 
-    - name: Build and Push Docker Image
+    - name: Deploy Docker Image
       env:
         DJANGO_PROJECT_NAME: ${{ secrets.DJANGO_PROJECT_NAME }}
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

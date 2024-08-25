@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set Colors and handle errors
-sdlc/colors
+source sdlc/colors
 
 # Make migrations
 echo -e "${YELLOW}Making migrations...${NC}"
@@ -13,11 +13,15 @@ fi
 # Migrate changes as needed
 if echo "$migration_output" | grep -q "No changes detected"; then
     echo -e "${YELLOW}No changes detected in migrations.${NC}"
+    echo -e " "
 else
     # Apply migrations
     echo -e "${YELLOW}Applying migrations...${NC}"
     python app/manage.py migrate
     if [ $? -ne 0 ]; then
         handle_error "Migration application failed. Exiting..."
+    else
+        echo -e "${GREEN}Migrations applied successfully!${NC}"
+        echo -e " "
     fi
 fi
