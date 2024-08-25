@@ -45,6 +45,7 @@ while true; do
 
     if [[ "$confirmation" == "y" || "$confirmation" == "yes" ]]; then
         # Make the commit with the provided message
+        echo -e " "
         echo -e "${YELLOW}Committing changes...${NC}"
         echo -e " "
         git commit -m "$commit_message"
@@ -54,6 +55,7 @@ while true; do
         fi
 
         # Push the changes to the main branch
+        echo -e " "
         echo -e "${YELLOW}Pushing changes to the remote branch '${BRANCH_NAME}...${NC}"
         git push origin "$BRANCH_NAME"
         if [ $? -ne 0 ]; then
@@ -61,6 +63,7 @@ while true; do
             echo -e " "
         fi
 
+        echo -e " "
         echo -e "${GREEN}Changes pushed successfully to the '${BRANCH_NAME}' branch!${NC}"
         echo -e " "
         exit 0
