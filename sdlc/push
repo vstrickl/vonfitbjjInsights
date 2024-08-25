@@ -45,7 +45,6 @@ while true; do
 
     if [[ "$confirmation" == "y" || "$confirmation" == "yes" ]]; then
         # Make the commit with the provided message
-        echo -e " "
         echo -e "${YELLOW}Committing changes...${NC}"
         echo -e " "
         git commit -m "$commit_message"
