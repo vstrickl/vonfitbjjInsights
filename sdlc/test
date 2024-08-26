@@ -32,7 +32,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Build Docker image
-sdlc/build
+sdlc/test_build
 if [ $? -ne 0 ]; then
     handle_error "Build script failed. Exiting deployment..."
 fi

@@ -37,18 +37,6 @@ if [ $? -ne 0 ]; then
     handle_error "Build script failed. Exiting deployment..."
 fi
 
-# Tag the Docker image
-docker tag ${DOCKER_REPO_NAME}:latest ${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:latest
-if [ $? -ne 0 ]; then
-    echo -e "${RED}Docker image tagging failed. Exiting...${NC}"
-    echo -e " "
-    exit 1
-fi
-
-echo -e " "
-echo -e "${GREEN}Docker image tagged successfully!${NC}"
-echo -e " "
-
 # Push Docker image to Docker Hub
 echo -e "${YELLOW}Pushing Docker image to Docker Hub...${NC}"
 docker push ${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:latest

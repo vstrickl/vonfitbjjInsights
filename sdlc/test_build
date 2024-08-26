@@ -32,14 +32,14 @@ echo -e "${GREEN}Docker login successful!${NC}"
 echo -e " "
 
 # Build Docker image
-echo -e "${YELLOW}Building and tagging Docker image...${NC}"
-docker build -t ${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:latest .
+echo -e "${YELLOW}Building Docker image...${NC}"
+docker compose build
 if [ $? -ne 0 ]; then
-    echo -e "${RED}Docker image build and tagging failed. Exiting...${NC}"
+    echo -e "${RED}Docker image build failed. Exiting...${NC}"
     echo -e " "
     exit 1
 fi
 
 echo -e " "
-echo -e "${GREEN}Docker image built and tagged successfully!${NC}"
+echo -e "${GREEN}Docker image built successfully!${NC}"
 echo -e " "
