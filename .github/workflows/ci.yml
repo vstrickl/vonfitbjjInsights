@@ -63,6 +63,7 @@ jobs:
 
     - name: Run Django checks
       env:
+        DJANGO_ALLOWED_HOSTS: ${{ secrets.DJANGO_ALLOWED_HOSTS }}
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DEBUG: ${{ vars.DEBUG }}
         DBNAME: ${{ secrets.DBNAME }}
@@ -79,10 +80,11 @@ jobs:
 
     - name: Deploy Docker Image
       env:
-        DJANGO_PROJECT_NAME: ${{ vars.DJANGO_PROJECT_NAME }}
         DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
         DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
         DOCKER_REPO_NAME: ${{ vars.DOCKER_REPO_NAME }}
+        DJANGO_PROJECT_NAME: ${{ vars.DJANGO_PROJECT_NAME }}
+        DJANGO_ALLOWED_HOSTS: ${{ secrets.DJANGO_ALLOWED_HOSTS }}
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DEBUG: ${{ vars.DEBUG }}
         DBNAME: ${{ secrets.DBNAME }}

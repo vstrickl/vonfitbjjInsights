@@ -35,11 +35,10 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',
-    '0.0.0.0'
-]
+ALLOWED_HOSTS = config(
+    'DJANGO_ALLOWED_HOSTS',
+    '127.0.0.1,localhost'
+    ).split(',')
 
 
 # Application definition
