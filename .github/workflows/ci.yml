@@ -63,7 +63,7 @@ jobs:
 
     - name: Run Django checks
       env:
-        DJANGO_PROJECT_NAME: ${{ secrets.SECRET_KEY }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
         python app/manage.py check
         python app/manage.py test
