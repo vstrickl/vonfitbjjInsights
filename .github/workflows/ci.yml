@@ -90,5 +90,8 @@ jobs:
         PGPWD: ${{ secrets.PGPWD }}
         PGHOST: ${{ secrets.PGHOST }}
         PGPORT: ${{ secrets.PGPORT }}
+        FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
+        FACEBOOK_APP_SECRET: ${{ secrets.FACEBOOK_APP_SECRET }}
+        FACEBOOK_USER_ID: ${{ secrets.FACEBOOK_USER_ID }}
       run: |
         bash sdlc/deploy
