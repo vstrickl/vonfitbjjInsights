@@ -85,5 +85,10 @@ jobs:
         DOCKER_REPO_NAME: ${{ vars.DOCKER_REPO_NAME }}
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DEBUG: ${{ vars.DEBUG }}
+        DBNAME: ${{ secrets.DBNAME }}
+        PGUSER: ${{ secrets.PGUSER }}
+        PGPWD: ${{ secrets.PGPWD }}
+        PGHOST: ${{ secrets.PGHOST }}
+        PGPORT: ${{ secrets.PGPORT }}
       run: |
         bash sdlc/deploy
