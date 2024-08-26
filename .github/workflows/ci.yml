@@ -64,7 +64,7 @@ jobs:
     - name: Run Django checks
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        DEBUG: ${{ secrets.DEBUG }}
+        DEBUG: ${{ vars.DEBUG }}
         DBNAME: ${{ secrets.DBNAME }}
         PGUSER: ${{ secrets.PGUSER }}
         PGPWD: ${{ secrets.PGPWD }}
@@ -79,9 +79,9 @@ jobs:
 
     - name: Deploy Docker Image
       env:
-        DJANGO_PROJECT_NAME: ${{ secrets.DJANGO_PROJECT_NAME }}
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DJANGO_PROJECT_NAME: ${{ vars.DJANGO_PROJECT_NAME }}
+        DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
         DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-        DOCKER_REPO_NAME: ${{ secrets.DOCKER_REPO_NAME }}
+        DOCKER_REPO_NAME: ${{ vars.DOCKER_REPO_NAME }}
       run: |
         bash sdlc/deploy
