@@ -7,30 +7,11 @@ on:
     branches: [ main ]
 
 jobs:
-  codeql:
-    name: CodeQL Analysis
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      security-events: write
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: python
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-      with:
-        category: '/github/workflow/analysis'
-
   security_check:
     name: Security Checks
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true
 
     steps:
     - name: Checkout repository
@@ -46,6 +27,28 @@ jobs:
         pip install --upgrade pip
         pip install bandit
         bandit -r app/vonfitbjjInsights/ -ll
+  
+  linters:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install pylint mypy pytest
+
+    - name: Run Code Quality Checks
+      run: |
+        bash sdlc/check_code
 
   deployment_check:
     name: Deployment Verification
