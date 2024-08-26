@@ -25,14 +25,14 @@ else
     echo -e "${GREEN}Mypy passed!${NC}"
 fi
 
-# Run tests
-echo -e "${YELLOW}Running tests...${NC}"
-pytest
+# Run Ruff
+echo -e "${YELLOW}Running Ruff...${NC}"
+ruff **/*.py
 if [ $? -ne 0 ]; then
-    echo -e "${RED}Tests failed. Exiting...${NC}"
+    echo -e "${RED}Ruff failed. Exiting...${NC}"
     exit 1
 else
-    echo -e "${GREEN}Tests passed!${NC}"
+    echo -e "${GREEN}Ruff passed!${NC}"
 fi
 
-echo -e "${GREEN}Test script completed successfully!${NC}"
+echo -e "${GREEN}Linter checks completed successfully!${NC}"

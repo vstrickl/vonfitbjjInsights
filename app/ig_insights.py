@@ -1,18 +1,21 @@
 """Calls the IG Insights API Endpoint function."""
 
-import os
-import json
-import django
-import logging
 import argparse
+import json
+import logging
+import os
+import django
 
 # Set up Django environment
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vonfitbjjInsights.settings')
 django.setup()
 
-from metainsights.fb_utils import get_latest_access_token
+# pylint: disable=wrong-import-position
+# ruff: noqa: E402
 from metainsights.fb_info import get_ig_user_id_by_cli_name
+from metainsights.fb_utils import get_latest_access_token
 from metainsights.insights import ig_audience_dem
+from metainsights.error_handlers import ArgumentErrors
 
 # Set up logging
 logger = logging.getLogger('metainsights')
@@ -20,7 +23,7 @@ logging.basicConfig(level=logging.INFO, format='%(message)s')
 
 # Call Function
 if __name__ == "__main__":
-    try:
+    with ArgumentErrors():
         parser = argparse.ArgumentParser(description='Fetch Instagram audience demographics.')
         parser.add_argument('cli_name', type=str, help='CLI friendly name of the Facebook page')
         parser.add_argument('metric', type=str, help='Metric to fetch')
@@ -49,11 +52,3 @@ if __name__ == "__main__":
                 logging.error("Failed to retrieve access token.")
         else:
             logging.error("Failed to find the IG user ID for the provided CLI name.")
-    except argparse.ArgumentError as arg_err:
-        logging.error('Argument error: %s', arg_err)
-    except django.core.exceptions.ImproperlyConfigured as config_err:
-        logging.error('Improperly configured: %s', config_err)
-    except django.db.utils.DatabaseError as db_err:
-        logging.error('Database error: %s', db_err)
-    except Exception as e:
-        logging.error("An unexpected error occurred: %s", e)

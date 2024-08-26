@@ -8,14 +8,18 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vonfitbjjInsights.settings')
 django.setup()
 
+# pylint: disable=wrong-import-position
+# ruff: noqa: E402
 from metainsights.models import FacebookToken
 from metainsights.fb_utils import clean_page_info
 from metainsights.fb_info import get_facebook_pages
 from metainsights.fb_utils import save_page_info_to_db
+from metainsights.setup_env import setup_django_environment
+from metainsights.setup_env import setup_logging
 
-# Set up logging
-logger = logging.getLogger('metainsights')
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+# Set up Django environment and logging
+setup_django_environment()
+logger = setup_logging()
 
 # Call Function
 if __name__ == "__main__":
@@ -30,5 +34,3 @@ if __name__ == "__main__":
             logging.info('Page info written to page_info.json')
     except FacebookToken.DoesNotExist:
         logger.error('No access token found.')
-    except Exception as err:
-        logger.error('An error occurred: %s', err)

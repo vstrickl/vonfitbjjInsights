@@ -32,8 +32,7 @@ def invoke_login():
         return request_url
     except requests.exceptions.RequestException as req_err:
         logging.error('Request error occurred: %s', req_err)
-    except Exception as err:
-        logging.error('An error occurred: %s', err)
+        return None
 
 if __name__ == "__main__":
     login_url = invoke_login()
