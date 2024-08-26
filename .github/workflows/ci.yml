@@ -65,6 +65,11 @@ jobs:
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DEBUG: ${{ secrets.DEBUG }}
+        DBNAME: ${{ secrets.DBNAME }}
+        PGUSER: ${{ secrets.PGUSER }}
+        PGPWD: ${{ secrets.PGPWD }}
+        PGHOST: ${{ secrets.PGHOST }}
+        PGPORT: ${{ secrets.PGPORT }}
       run: |
         python app/manage.py check
         python app/manage.py test
