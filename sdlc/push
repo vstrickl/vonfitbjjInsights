@@ -23,12 +23,12 @@ echo -e "${YELLOW}Adding all changes to staging...${NC}"
 git add .
 
 # Check the status again to show what has been staged
-git_status=$(git status)
+git_status=$(git -c color.status=always status)
 
 # Check if there is nothing to commit (working tree is clean)
 if echo "$git_status" | grep -q "nothing to commit, working tree clean"; then
     echo -e " "
-    echo -e "${GREEN}Nothing to commit, working tree clean. Exiting...${NC}"
+    echo -e "Nothing to commit, working tree clean. Exiting..."
     echo -e " "
     exit 0
 fi
