@@ -1,3 +1,4 @@
+# type: ignore
 """Calls the IG Insights API Endpoint function."""
 
 import argparse

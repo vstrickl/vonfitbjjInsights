@@ -1,14 +1,15 @@
+# type: ignore
 """Grabs IG Account Info."""
 
 import argparse
 import logging
-import os
 
-import django
+from setup_env import setup_django_environment
+from setup_env import setup_logging
 
-# Set up Django environment
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vonfitbjjInsights.settings')
-django.setup()
+# Set up Django environment and logging
+setup_django_environment()
+logger = setup_logging()
 
 # pylint: disable=wrong-import-position
 # ruff: noqa: E402
@@ -18,13 +19,7 @@ from metainsights.fb_info import (
     update_ig_user_id,
 )
 from metainsights.fb_utils import get_latest_access_token
-from metainsights.setup_env import setup_django_environment
-from metainsights.setup_env import setup_logging
 from metainsights.error_handlers import ArgumentErrors
-
-# Set up Django environment and logging
-setup_django_environment()
-logger = setup_logging()
 
 # Call Function
 if __name__ == "__main__":

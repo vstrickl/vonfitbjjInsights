@@ -27,7 +27,7 @@ fi
 
 # Run Ruff
 echo -e "${YELLOW}Running Ruff...${NC}"
-ruff **/*.py
+ruff check **/*.py
 if [ $? -ne 0 ]; then
     echo -e "${RED}Ruff failed. Exiting...${NC}"
     exit 1

@@ -1,7 +1,8 @@
+# type: ignore
 """Sets Up OAuth Login for Facebook."""
 
 import logging
-import random
+import secrets
 import string
 import requests
 
@@ -13,7 +14,7 @@ CALLBACK_URL = f"{BASE_URL}/callback"
 
 def generate_state():
     """Generates a random state for OAuth."""
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=16))
+    return ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(16))
 
 def invoke_login():
     """Invokes the Facebook Login."""

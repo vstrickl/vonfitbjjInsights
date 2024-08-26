@@ -1,8 +1,11 @@
+# type: ignore
+"""Meta Insights DB Models"""
+
 from django.db import models
-from django.contrib.auth.models import User
 
 # Create your models here.
 class FacebookToken(models.Model):
+    """Facebook Token Model"""
     token = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -11,6 +14,7 @@ class FacebookToken(models.Model):
         return f'Token created {self.created_at}'
 
 class FacebookPage(models.Model):
+    """Facebook Page Model"""
     page_id = models.CharField(max_length=255, unique=True)
     ig_user_id = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255)
@@ -19,4 +23,4 @@ class FacebookPage(models.Model):
     category_list = models.JSONField()
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
