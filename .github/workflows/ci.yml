@@ -80,9 +80,10 @@ jobs:
     - name: Deploy Docker Image
       env:
         DJANGO_PROJECT_NAME: ${{ vars.DJANGO_PROJECT_NAME }}
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
         DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
         DOCKER_REPO_NAME: ${{ vars.DOCKER_REPO_NAME }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        DEBUG: ${{ vars.DEBUG }}
       run: |
         bash sdlc/deploy
