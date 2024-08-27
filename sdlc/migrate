@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set Colors and handle errors
-source sdlc/colors
+source ~/bin/colors
 
 # Make migrations
 echo -e "${YELLOW}Making migrations...${NC}"
