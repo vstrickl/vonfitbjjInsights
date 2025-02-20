@@ -1,5 +1,10 @@
+click
 Django
 django-sslserver
+google-ads
+google-auth
+google-auth-oauthlb
+google-auth-httplib2
 gunicorn
 Pillow
 psycopg2-binary

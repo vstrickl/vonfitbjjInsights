@@ -211,6 +211,10 @@ CSRF_TRUSTED_ORIGINS = [
 
 
 # Facebook API
-
+# https://
 FACEBOOK_APP_ID = config('FACEBOOK_APP_ID')
 FACEBOOK_APP_SECRET = config('FACEBOOK_APP_SECRET')
+
+# Google API
+# https://
+GOOGLE_CREDS = os.path.join(BASE_DIR, 'google_ads_credentials.json')

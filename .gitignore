@@ -4,3 +4,4 @@
 data/
 django.crt
 django.key
+google_ads_credentials.json
