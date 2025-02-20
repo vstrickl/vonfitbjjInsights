@@ -1,5 +1,6 @@
 Django
 django-sslserver
+gunicorn
 Pillow
 psycopg2-binary
 python-decouple

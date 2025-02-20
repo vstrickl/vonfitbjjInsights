@@ -10,8 +10,8 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # Install dependencies
-COPY app/requirements.txt /app/
-RUN pip install --no-cache-dir -r app/requirements.txt
+COPY /app/requirements.txt /app/
+RUN pip install --no-cache-dir -r /app/requirements.txt
 RUN python -m django --version
 
 # Copy project
@@ -22,4 +22,4 @@ RUN ls -a /app/
 EXPOSE 8000
 
 # Start the Django server
-ENTRYPOINT ["/src/cmd/run"]
+ENTRYPOINT ["/app/cmd/run"]
