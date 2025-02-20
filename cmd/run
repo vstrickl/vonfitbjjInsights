@@ -1,0 +1,5 @@
+#!/bin/bash
+# Set up networking, environment variables, etc.
+
+# Run the application (e.g., Gunicorn, Django, or other)
+gunicorn --bind 0.0.0.0:8000 mealPrep.wsgi:application --chdir app

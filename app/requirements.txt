@@ -1,0 +1,7 @@
+Django
+django-sslserver
+Pillow
+psycopg2-binary
+python-decouple
+requests
+whitenoise

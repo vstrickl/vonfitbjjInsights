@@ -16,15 +16,8 @@ from decouple import config  # type: ignore
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Determine the environment (you can set this in your .env file or environment)
-ENVIRONMENT = config('ENVIRONMENT', default='development')
-
 # Set the BASE_URL based on the environment
-if ENVIRONMENT == 'production':
-    BASE_URL = config('BASE_URL', default='https://production.example.com')
-else:
-    BASE_URL = config('BASE_URL', default='https://localhost:8000')
-
+BASE_URL = config('BASE_URL', default='https://production.example.com')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -35,14 +28,10 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = config(
-    'DJANGO_ALLOWED_HOSTS',
-    '127.0.0.1,localhost'
-    ).split(',')
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,7 +45,7 @@ INSTALLED_APPS = [
 
     ## Native App
     'metainsights',
-    'avatar'
+    'home'
 ]
 
 MIDDLEWARE = [

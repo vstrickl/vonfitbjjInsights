@@ -1,3 +1,4 @@
+"""This module generates the URL Paths for Meta Insights."""
 from django.urls import path
 
 from . import views

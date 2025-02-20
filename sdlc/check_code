@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Set Colors and handle errors
+source ${PWD}/sdlc/colors
+
+# Test Starts
+echo -e "${YELLOW}Starting testing...${NC}"
+
+# Run bandit
+echo -e "${YELLOW}Running bandit...${NC}"
+bandit -r "app/" -ll
+if [ $? -ne 0 ]; then
+    echo
+    echo -e "${RED}Bandit failed. Exiting...${NC}"
+    echo
+    exit 1
+else
+    echo
+    echo -e "${GREEN}Bandit passed!${NC}"
+    echo
+fi
+
+# Run pylint
+echo -e "${YELLOW}Running pylint...${NC}"
+pylint **/*.py
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Pylint failed. Exiting...${NC}"
+    echo
+    exit 1
+else
+    echo -e "${GREEN}Pylint passed!${NC}"
+    echo
+fi
+
+# Run Django Deployment Checks
+echo -e "${YELLOW}Checking Django Deployment Configuration...${NC}"
+echo
+python app/manage.py check
+
+if [ $? -ne 0 ]; then
+    echo -e "${RED}App Deployment Check Failed. Exiting...${NC}"
+    echo
+    exit 1
+else
+    echo -e "${GREEN}Your App has PASSED the Django Deployment Checks!${NC}"
+    echo
+fi

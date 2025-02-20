@@ -1,5 +1,5 @@
 # type: ignore
-"""Meta Insights DB Models"""
+"""This module generates database models for Meta Insights."""
 
 from django.db import models
 

@@ -1,3 +1,4 @@
+"""This module generates the page views for Meta Insights."""
 import logging
 import requests
 from decouple import config

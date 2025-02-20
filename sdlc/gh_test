@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Set Colors (optional)
+source /src/sdlc/colors || { echo -e "\033[0;31mError: Colors file not found. Proceeding without colors.\033[0m"; }
+
+# Exit immediately if a command exits with a non-zero status
+set -e
+
+# Run GitHub Actions simulation
+run_github_actions() {
+    local job_name=$1
+    echo -e "${YELLOW:-\033[0;33m}Running $job_name job...${NC:-\033[0m}"
+    act -W /src/.github/workflows/ci.yml \
+        --container-architecture linux/amd64 \
+        -P ubuntu-latest=ghcr.io/catthehacker/ubuntu:act-latest \
+        -s DOCKER_USERNAME \
+        -s DOCKER_ACCESS_TOKEN \
+        -s SECRET_KEY=test-key \
+        -s DEBUG=true \
+        -s DBNAME \
+        -s DBUSER \
+        -s DBPWD \
+        -s DBHOST \
+        -s DBPORT \
+        --job "$job_name"
+
+    echo -e "${GREEN:-\033[0;32m}$job_name job completed successfully!${NC:-\033[0m}"
+}
+
+# Main Script Execution
+main() {
+    # Trap errors to display a final error message
+    trap 'echo -e "${RED:-\033[0;31m}GitHub Actions simulation exited with an error.${NC:-\033[0m}"; exit 1' ERR
+
+    # Run GitHub Actions jobs
+    run_github_actions check_code
+    run_github_actions verify_docker
+
+    # If all jobs pass
+    echo -e "${GREEN:-\033[0;32m}GitHub Actions simulation completed successfully!${NC:-\033[0m}"
+}
+
+# Execute main function
+main

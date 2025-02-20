@@ -10,11 +10,16 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # Install dependencies
-COPY requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
+COPY app/requirements.txt /app/
+RUN pip install --no-cache-dir -r app/requirements.txt
+RUN python -m django --version
 
 # Copy project
 COPY . /app/
+RUN ls -a /app/
+
+# Expose the application port
+EXPOSE 8000
 
 # Start the Django server
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app.vonfitbjjInsights.wsgi:application"]
+ENTRYPOINT ["/src/cmd/run"]
